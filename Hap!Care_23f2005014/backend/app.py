@@ -58,12 +58,17 @@ def setup_periodic_tasks(sender, **kwargs):
     sender.add_periodic_task(crontab(minute='*/1'), send_daily_remainders.s())
 
 
+import os
+
 if __name__ == "__main__":
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
+
 
 
 # celery -A app.celery worker --loglevel=info
 
 # celery -A app.celery beat --loglevel=info
+
 
 # sudo service redis-server stop
